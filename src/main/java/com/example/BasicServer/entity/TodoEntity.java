@@ -1,47 +1,38 @@
 package com.example.BasicServer.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "tasks")
 public class TodoEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //////////////////////Код из гайда
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String username;
-    private String password;
-    public TodoEntity() {
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private Boolean status;
 
-    public Long getId() {
-        return id;
-    }
+    private String text;
 
-    public String getUsername() {
-        return username;
-    }
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
-    public String getPassword() {
-        return password;
-    }
-//////
 }
-//Tasks
-//Сущнотсь == строка в БД
-//Hibernate готовый фреймворк, который реализует ORM(техника преобразовния java объектов  в формат строки БД)
-// и JPA (Абстракция ORM - как должна быть устроена система ORM )
