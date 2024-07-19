@@ -12,7 +12,10 @@ public class TodoApplicationExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<BaseSuccessResponse> handleValidationException(MethodArgumentNotValidException e) {
         return ResponseEntity.badRequest().body(
-                new BaseSuccessResponse(ErrorCodes.getErrorCodeByMessage( e.getBindingResult().getFieldError().getDefaultMessage()), true));
+                new BaseSuccessResponse(ErrorCodes
+                        .getErrorCodeByMessage( e.getBindingResult()
+                                .getFieldError()
+                                .getDefaultMessage()), true));
 
         /*List<Integer> errorCodes = e.getConstraintViolations()
                 .stream()
