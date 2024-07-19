@@ -1,10 +1,11 @@
 package com.example.BasicServer.dto.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class DeleteTodoDto {
-
     private Integer statusCode;
     private boolean success;
 }

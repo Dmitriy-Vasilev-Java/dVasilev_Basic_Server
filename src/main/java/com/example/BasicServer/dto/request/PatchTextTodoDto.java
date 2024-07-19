@@ -1,14 +1,12 @@
 package com.example.BasicServer.dto.request;
 
-import com.example.BasicServer.error.ValidationConstants;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateTodoDto {
-
-    @Size(min = 3, max = 160, message = ValidationConstants.TODO_TEXT_SIZE_NOT_VALID)
+public class PatchTextTodoDto {
+    @Size(min = 3, max = 160)
     private String text;
 }

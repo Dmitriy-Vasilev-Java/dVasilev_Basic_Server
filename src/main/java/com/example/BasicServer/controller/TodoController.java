@@ -1,7 +1,8 @@
 package com.example.BasicServer.controller;
 
 import com.example.BasicServer.dto.request.CreateTodoDto;
-import com.example.BasicServer.dto.request.DeleteAllReadyTodoDto;
+import com.example.BasicServer.dto.request.PatchTextTodoDto;
+import com.example.BasicServer.dto.request.PatchTodoDto;
 import com.example.BasicServer.dto.response.BaseSuccessResponse;
 import com.example.BasicServer.dto.response.CustomSuccessResponse;
 import com.example.BasicServer.entity.TodoEntity;
@@ -13,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/todo/")
+@RequestMapping("/v1/todo")
 @RequiredArgsConstructor
 @Validated
 public class TodoController {
@@ -31,26 +32,32 @@ public class TodoController {
     }
 
     @DeleteMapping
-    public ResponseEntity<BaseSuccessResponse<TodoEntity>>
-    deleteAllReady(@Valid @RequestBody DeleteAllReadyTodoDto todoDto) {
-        return ResponseEntity.ok(todoService.deleteAllReady(todoDto));
+    public ResponseEntity<BaseSuccessResponse> deleteAllReady() {
+        return ResponseEntity.ok(todoService.deleteAllReady());
     }
 
-//    @PatchMapping
-//    public ResponseEntity<CustomSuccessResponse<TodoEntity>> patch(@Valid CreateTodoDto todoDto) {
-//        return ResponseEntity.ok(todoService.patch(todoDto));
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<CustomSuccessResponse<TodoEntity>> delete(@Valid CreateTodoDto todoDto) {
-//        return ResponseEntity.ok(todoService.delete(todoDto));
-//    }
-//
-//    @PatchMapping("/status/{id}")
-//    public ResponseEntity<CustomSuccessResponse<TodoEntity>> patchStatus(@Valid CreateTodoDto todoDto) {
-//        return ResponseEntity.ok((todoService.patchStatus(todoDto)));
-//    }
-//
-//    @PatchMapping("/text/{id}")
+    @PatchMapping
+    public ResponseEntity<BaseSuccessResponse> patchStatus(@Valid @RequestBody PatchTodoDto patchTodoDto ) {
+        return ResponseEntity.ok(todoService.changeStatus(patchTodoDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseSuccessResponse> deleteById(@PathVariable Long id) {
+        return ResponseEntity.ok(todoService.deleteById(id));
+    }
+
+    @PatchMapping("/status/{id}")
+    public ResponseEntity<BaseSuccessResponse> patchStatusId
+            (@Valid
+             @RequestBody PatchTodoDto patchTodoDto,
+             @PathVariable Long id) {
+        return ResponseEntity.ok(todoService.changeStatusById(id, patchTodoDto));
+    }
+
+    @PatchMapping("/text/{id}")
+    public ResponseEntity<BaseSuccessResponse> patchStatusText
+            (@PathVariable String text, PatchTextTodoDto patchTextTodoDto) {
+        return ResponseEntity.ok((todoService.changeStatusByText(text, patchTextTodoDto)));
+    }
 
 }

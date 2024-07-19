@@ -1,6 +1,10 @@
 package com.example.BasicServer.error;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 public enum ErrorCodes {
+
     UNKNOWN(0, "unknown"),
     USERNAME_SIZE_NOT_VALID(1, ValidationConstants.USERNAME_SIZE_NOT_VALID),
     ROLE_SIZE_NOT_VALID(2, "role size not valid"),
@@ -49,9 +53,22 @@ public enum ErrorCodes {
     HTTP_MESSAGE_NOT_READABLE_EXCEPTION(47, ValidationConstants.HTTP_MESSAGE_NOT_READABLE_EXCEPTION);
 
     private final Integer errorCode;
-    private final String errorMessage;
+
+    private final String errorMessage
+            ;
     private ErrorCodes(Integer errorCode, String errorMessage){
-    this.errorCode = errorCode;
-    this.errorMessage = errorMessage;
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
+
+    private static HashMap<String, Integer> errorCodes = new HashMap<>();
+
+    static {
+        Arrays.stream(ErrorCodes.values())
+                .forEach(error -> errorCodes.put(error.errorMessage, error.errorCode));
+    }
+
+    public static Integer getErrorCodeByMessage(String message) {
+        return errorCodes.get(message);
     }
 }
