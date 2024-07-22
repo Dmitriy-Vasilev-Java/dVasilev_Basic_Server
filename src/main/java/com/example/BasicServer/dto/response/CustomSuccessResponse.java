@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
-public class CustomSuccessResponse <T> extends BaseSuccessResponse {
+public class CustomSuccessResponse<T> extends BaseSuccessResponse {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
