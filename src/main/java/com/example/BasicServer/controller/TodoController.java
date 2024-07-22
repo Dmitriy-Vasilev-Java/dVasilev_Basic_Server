@@ -5,13 +5,18 @@ import com.example.BasicServer.dto.request.PatchTextTodoDto;
 import com.example.BasicServer.dto.request.PatchTodoDto;
 import com.example.BasicServer.dto.response.BaseSuccessResponse;
 import com.example.BasicServer.dto.response.CustomSuccessResponse;
+import com.example.BasicServer.dto.response.GetNewsDto;
 import com.example.BasicServer.entity.TodoEntity;
 import com.example.BasicServer.service.impl.TodoServiceImpl;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/todo")
@@ -21,10 +26,13 @@ public class TodoController {
 
     private final TodoServiceImpl todoService;
 
-//      @GetMapping
-//    public ResponseEntity<CustomSuccessResponse<TodoEntity>> getPaginated(@Valid GetPaginatedTodoDto todoDto) {
-//        return ResponseEntity.ok(todoService.getPaginated(todoDto));
-//    }
+    @GetMapping
+    public ResponseEntity<CustomSuccessResponse<GetNewsDto<List<TodoEntity>>>> getPaginatedTodos(
+            @RequestParam @Max(100) @Min(1) Integer page,
+            @RequestParam @Min(1) Integer perPage,
+            @RequestParam(required = false) Boolean status) {
+        return ResponseEntity.ok(todoService.getPaginated(page, perPage, status));
+    }
 
     @PostMapping
     public ResponseEntity<CustomSuccessResponse<TodoEntity>> createTask(@Valid @RequestBody CreateTodoDto todoDto) {
