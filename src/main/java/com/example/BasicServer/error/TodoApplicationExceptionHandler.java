@@ -39,14 +39,4 @@ public class TodoApplicationExceptionHandler {
                                 .getDefaultMessage()), true));
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<BaseSuccessResponse>
-    handleMethodArgumentValidExceptionByMethodDelete(MethodArgumentNotValidException e) {
-        return ResponseEntity.badRequest().body(
-                new BaseSuccessResponse(ErrorCodes
-                        .getErrorCodeByMessage(e
-                                .getBindingResult()
-                                .getFieldError()
-                                .getDefaultMessage()), true));
-    }
 }

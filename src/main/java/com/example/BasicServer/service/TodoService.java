@@ -21,7 +21,7 @@ public interface TodoService {
 
     BaseSuccessResponse changeStatusById(Long  id, PatchTodoDto patchTodoDto);
 
-    BaseSuccessResponse changeStatusByText(String text, PatchTextTodoDto patchTextTodoDto);
+    BaseSuccessResponse changeTextById(Long id, PatchTextTodoDto patchTextTodoDto);
 
 //    @Transactional
 //    BaseSuccessResponse changeStatusId(PatchTodoDto patchTodoDto);

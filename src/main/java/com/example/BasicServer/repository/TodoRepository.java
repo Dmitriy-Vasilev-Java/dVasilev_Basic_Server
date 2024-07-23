@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface TodoRepository extends JpaRepository<TodoEntity, Long> {
 
+
+
     @Transactional
     @Modifying
     void deleteByStatus(boolean status);

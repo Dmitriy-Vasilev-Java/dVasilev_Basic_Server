@@ -7,6 +7,9 @@ import com.example.BasicServer.dto.response.BaseSuccessResponse;
 import com.example.BasicServer.dto.response.CustomSuccessResponse;
 import com.example.BasicServer.dto.response.GetNewsDto;
 import com.example.BasicServer.entity.TodoEntity;
+//import com.example.BasicServer.error.CustomException;
+import com.example.BasicServer.error.CustomException;
+import com.example.BasicServer.error.ErrorCodes;
 import com.example.BasicServer.repository.TodoRepository;
 import com.example.BasicServer.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -68,21 +71,21 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public BaseSuccessResponse deleteById(Long id) {
-        repository.deleteById(id);
+            repository.deleteById(id);
         return new BaseSuccessResponse(1, true);
     }
 
     @Transactional
     @Override
     public BaseSuccessResponse changeStatusById(Long id, PatchTodoDto patchTodoDto) {
-        TodoEntity entity = repository.findById(id).orElseThrow(RuntimeException::new);
+        TodoEntity entity = repository.findById(id).orElseThrow(() -> new CustomException(ErrorCodes.HTTP_MESSAGE_NOT_READABLE_EXCEPTION));
         entity.setStatus(patchTodoDto.getStatus());
         return new BaseSuccessResponse(1, true);
     }
 
     @Transactional
     @Override
-    public BaseSuccessResponse changeStatusByText(String text, PatchTextTodoDto patchTextTodoDto) {
+    public BaseSuccessResponse changeTextById(Long id, PatchTextTodoDto patchTextTodoDto) {
         List<TodoEntity> listTextEntity = repository.findAll();
         for(TodoEntity todoEntity:listTextEntity) {
             todoEntity.setText(patchTextTodoDto.getText());

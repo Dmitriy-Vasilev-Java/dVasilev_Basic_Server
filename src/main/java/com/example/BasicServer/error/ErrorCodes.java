@@ -54,8 +54,8 @@ public enum ErrorCodes {
 
     private final Integer errorCode;
 
-    private final String errorMessage
-            ;
+    private final String errorMessage;
+
     private ErrorCodes(Integer errorCode, String errorMessage){
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

@@ -12,6 +12,7 @@ import com.example.BasicServer.service.impl.TodoServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -63,8 +64,9 @@ public class TodoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BaseSuccessResponse> deleteById(@PathVariable Long id) {
-
+    public ResponseEntity<BaseSuccessResponse> deleteById(
+            @PathVariable
+            @Positive(message = ValidationConstants.ID_MUST_BE_POSITIVE) Long id) {
         return ResponseEntity.ok(todoService.deleteById(id));
     }
 
@@ -78,8 +80,8 @@ public class TodoController {
 
     @PatchMapping("/text/{id}")
     public ResponseEntity<BaseSuccessResponse> patchStatusText
-            (@PathVariable String text, PatchTextTodoDto patchTextTodoDto) {
-        return ResponseEntity.ok((todoService.changeStatusByText(text, patchTextTodoDto)));
+            (@Valid @PathVariable Long id, PatchTextTodoDto patchTextTodoDto) {
+        return ResponseEntity.ok((todoService.changeTextById(id, patchTextTodoDto)));
     }
 
 }
