@@ -7,13 +7,11 @@ import com.example.BasicServer.dto.response.BaseSuccessResponse;
 import com.example.BasicServer.dto.response.CustomSuccessResponse;
 import com.example.BasicServer.dto.response.GetNewsDto;
 import com.example.BasicServer.entity.TodoEntity;
-//import com.example.BasicServer.error.CustomException;
 import com.example.BasicServer.error.CustomException;
 import com.example.BasicServer.error.ErrorCodes;
 import com.example.BasicServer.repository.TodoRepository;
 import com.example.BasicServer.service.TodoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +25,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService {
 
-    @Autowired
     private final TodoRepository repository;
 
     public CustomSuccessResponse<GetNewsDto<List<TodoEntity>>> getPaginated(Integer page, Integer perPage, Boolean status) {
@@ -38,11 +35,9 @@ public class TodoServiceImpl implements TodoService {
         List<TodoEntity> listEntities = pageEntities.stream().collect(Collectors.toList());
         long numberOfElements = listEntities.size();
         long ready = listEntities.stream().filter(TodoEntity::getStatus).count();
-        long notReady = numberOfElements-ready;
-
+        long notReady = numberOfElements - ready;
         return new CustomSuccessResponse<>(true, 1, new GetNewsDto<>(listEntities, numberOfElements, ready, notReady), null);
     }
-
 
     @Override
     public CustomSuccessResponse<TodoEntity> createTask(CreateTodoDto createTodoDto) {
@@ -56,14 +51,14 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public BaseSuccessResponse deleteAllReady() {
         repository.deleteByStatus(true);
-        return new BaseSuccessResponse(1,true);
+        return new BaseSuccessResponse(1, true);
     }
 
     @Transactional
     @Override
     public BaseSuccessResponse changeStatus(PatchTodoDto patchTodoDto) {
         List<TodoEntity> listEntity = repository.findAll();
-        for (TodoEntity todoEntity:listEntity) {
+        for (TodoEntity todoEntity : listEntity) {
             todoEntity.setStatus(patchTodoDto.getStatus());
         }
         return new BaseSuccessResponse(1, true);
@@ -71,14 +66,15 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public BaseSuccessResponse deleteById(Long id) {
-            repository.deleteById(id);
+        repository.deleteById(id);
         return new BaseSuccessResponse(1, true);
     }
 
     @Transactional
     @Override
     public BaseSuccessResponse changeStatusById(Long id, PatchTodoDto patchTodoDto) {
-        TodoEntity entity = repository.findById(id).orElseThrow(() -> new CustomException(ErrorCodes.HTTP_MESSAGE_NOT_READABLE_EXCEPTION));
+        TodoEntity entity = repository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCodes.TASK_NOT_FOUND));
         entity.setStatus(patchTodoDto.getStatus());
         return new BaseSuccessResponse(1, true);
     }
@@ -86,10 +82,9 @@ public class TodoServiceImpl implements TodoService {
     @Transactional
     @Override
     public BaseSuccessResponse changeTextById(Long id, PatchTextTodoDto patchTextTodoDto) {
-        List<TodoEntity> listTextEntity = repository.findAll();
-        for(TodoEntity todoEntity:listTextEntity) {
-            todoEntity.setText(patchTextTodoDto.getText());
-        }
+        TodoEntity todoEntity = repository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCodes.TASK_NOT_FOUND));
+        todoEntity.setText(patchTextTodoDto.getText());
         return new BaseSuccessResponse(1, true);
     }
 }

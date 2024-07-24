@@ -6,8 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class GetNewsDto<T> {
-    private T content;
-    private Long numberOfElements;
-    private Long ready;
-    private Long notReady;
+    private final T content;
+    private final Long numberOfElements;
+    private final Long ready;
+    private final Long notReady;
 }

@@ -71,17 +71,18 @@ public class TodoController {
     }
 
     @PatchMapping("/status/{id}")
-    public ResponseEntity<BaseSuccessResponse> patchStatusId
-            (@Valid
-             @RequestBody PatchTodoDto patchTodoDto,
-             @PathVariable Long id) {
+    public ResponseEntity<BaseSuccessResponse> patchStatusId(
+            @Valid
+            @RequestBody PatchTodoDto patchTodoDto,
+            @PathVariable Long id) {
         return ResponseEntity.ok(todoService.changeStatusById(id, patchTodoDto));
     }
 
     @PatchMapping("/text/{id}")
     public ResponseEntity<BaseSuccessResponse> patchStatusText
-            (@Valid @PathVariable Long id, PatchTextTodoDto patchTextTodoDto) {
-        return ResponseEntity.ok((todoService.changeTextById(id, patchTextTodoDto)));
+            (@Valid
+             @RequestBody PatchTextTodoDto patchTextTodoDto,
+             @PathVariable Long id) {
+        return ResponseEntity.ok(todoService.changeTextById(id, patchTextTodoDto));
     }
-
 }

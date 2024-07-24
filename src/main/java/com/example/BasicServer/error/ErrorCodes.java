@@ -1,8 +1,11 @@
 package com.example.BasicServer.error;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.HashMap;
 
+@Getter
 public enum ErrorCodes {
 
     UNKNOWN(0, "unknown"),
@@ -53,7 +56,6 @@ public enum ErrorCodes {
     HTTP_MESSAGE_NOT_READABLE_EXCEPTION(47, ValidationConstants.HTTP_MESSAGE_NOT_READABLE_EXCEPTION);
 
     private final Integer errorCode;
-
     private final String errorMessage;
 
     private ErrorCodes(Integer errorCode, String errorMessage){

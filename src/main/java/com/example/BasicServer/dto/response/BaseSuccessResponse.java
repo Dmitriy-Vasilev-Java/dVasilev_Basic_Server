@@ -9,7 +9,6 @@ import lombok.Getter;
 public class BaseSuccessResponse {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer statusCode;
-
-    private Boolean success;
+    private final Integer statusCode;
+    private final Boolean success;
 }
