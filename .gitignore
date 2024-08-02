@@ -32,7 +32,6 @@ target/*
 # IntelliJ
 .idea/*
 
-
 # Eclipse
 bin/*
 .settings/
@@ -47,7 +46,8 @@ bin/*
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
+!**/src/main/resources/application.properties
+!**/src/main/resources/application-dev.properties
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -72,6 +72,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-
-/home/dunice/git_pr/BasicServer/src/main/resources/application.properties
-/home/dunice/git_pr/BasicServer/src/main/resources/application-dev-properties
