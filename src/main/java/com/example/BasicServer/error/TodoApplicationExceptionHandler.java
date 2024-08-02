@@ -22,7 +22,6 @@ public class TodoApplicationExceptionHandler {
                     return ErrorCodes.getErrorCodeByMessage(constraintViolation.getMessageTemplate());
                 }).collect(Collectors.toList());
         return ResponseEntity.badRequest().body(new CustomSuccessResponse<>(errorCodes, errorCodes.get(0)));
-
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

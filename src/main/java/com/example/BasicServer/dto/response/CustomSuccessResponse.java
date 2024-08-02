@@ -3,7 +3,6 @@ package com.example.BasicServer.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
 import java.util.List;
 
 @Getter
