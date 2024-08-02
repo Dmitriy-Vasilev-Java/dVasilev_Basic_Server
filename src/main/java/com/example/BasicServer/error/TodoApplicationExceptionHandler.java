@@ -21,10 +21,7 @@ public class TodoApplicationExceptionHandler {
                 .map(constraintViolation -> {
                     return ErrorCodes.getErrorCodeByMessage(constraintViolation.getMessageTemplate());
                 }).collect(Collectors.toList());
-        return ResponseEntity.badRequest().body(
-                errorCodes.size() > 1
-                        ? new CustomSuccessResponse(true, null, null, errorCodes)
-                        : new CustomSuccessResponse(true, errorCodes.get(0), null, null));
+        return ResponseEntity.badRequest().body(new CustomSuccessResponse<>(errorCodes, errorCodes.get(0)));
 
     }
 

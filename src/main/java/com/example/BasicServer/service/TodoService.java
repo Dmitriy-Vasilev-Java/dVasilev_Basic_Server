@@ -7,7 +7,6 @@ import com.example.BasicServer.dto.response.BaseSuccessResponse;
 import com.example.BasicServer.dto.response.CustomSuccessResponse;
 import com.example.BasicServer.dto.response.GetNewsDto;
 import com.example.BasicServer.entity.TodoEntity;
-
 import java.util.List;
 
 public interface TodoService {

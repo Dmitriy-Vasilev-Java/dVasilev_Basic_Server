@@ -1,21 +1,23 @@
 package com.example.BasicServer.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 public class CustomSuccessResponse<T> extends BaseSuccessResponse {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private final T data;
+    private T data;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private final List<Integer> codes;
+    private List<Integer> codes;
 
-    public CustomSuccessResponse(Boolean success, Integer statusCode, T data, List<Integer> codes) {
-        super(statusCode, success);
-        this.data = data;
+    public CustomSuccessResponse(List<Integer> codes, Integer statusCode) {
         this.codes = codes;
+        setStatusCode(statusCode);
     }
 }

@@ -9,6 +9,7 @@ import com.example.BasicServer.dto.response.GetNewsDto;
 import com.example.BasicServer.entity.TodoEntity;
 import com.example.BasicServer.error.CustomException;
 import com.example.BasicServer.error.ErrorCodes;
+import com.example.BasicServer.error.ValidationConstants;
 import com.example.BasicServer.repository.TodoRepository;
 import com.example.BasicServer.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +36,7 @@ public class TodoServiceImpl implements TodoService {
         long numberOfElements = listEntities.size();
         long ready = listEntities.stream().filter(TodoEntity::getStatus).count();
         long notReady = numberOfElements - ready;
-        return new CustomSuccessResponse<>(true, 1, new GetNewsDto<>(listEntities, numberOfElements, ready, notReady), null);
+        return new CustomSuccessResponse<>(new GetNewsDto<>(listEntities, numberOfElements, ready, notReady), null);
     }
 
     @Override
@@ -45,13 +45,13 @@ public class TodoServiceImpl implements TodoService {
         todoEntity.setText(createTodoDto.getText());
         todoEntity.setStatus(false);
         todoEntity = repository.save(todoEntity);
-        return new CustomSuccessResponse<>(true, 1, todoEntity, null);
+        return new CustomSuccessResponse<>(todoEntity, null);
     }
 
     @Override
     public BaseSuccessResponse deleteAllReady() {
         repository.deleteByStatus(true);
-        return new BaseSuccessResponse(1, true);
+        return new BaseSuccessResponse();
     }
 
     @Transactional
@@ -66,7 +66,9 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public BaseSuccessResponse deleteById(Long id) {
-        repository.deleteById(id);
+        TodoEntity todoEntity = repository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCodes.TASK_NOT_FOUND));
+        repository.delete(todoEntity);
         return new BaseSuccessResponse(1, true);
     }
 
